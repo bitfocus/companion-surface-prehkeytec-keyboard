@@ -1,0 +1,32 @@
+{
+  "$schema": "../node_modules/@companion-surface/base/assets/manifest.schema.json",
+  "type": "surface",
+  "id": "prehkeytec",
+  "name": "PrehKeyTec",
+  "shortname": "prehkeytec",
+  "description": "Programmable PrehKeyTec POS keyboards",
+  "version": "0.0.0",
+  "license": "UNLICENSED",
+  "repository": "git+https://github.com/thepoison606/companion-surface-prehkeytec.git",
+  "bugs": "https://github.com/thepoison606/companion-surface-prehkeytec/issues",
+  "maintainers": [
+    {
+      "name": "Daniel Jocher"
+    }
+  ],
+  "runtime": {
+    "type": "node22",
+    "apiVersion": "0.0.0",
+    "entrypoint": "../dist/main.js"
+  },
+  "keywords": [
+    "prehkeytec",
+    "keyboard",
+    "poskey",
+    "hid"
+  ],
+  "products": [
+    "PrehKeyTec programmable keyboards"
+  ],
+  "usbIds": []
+}
