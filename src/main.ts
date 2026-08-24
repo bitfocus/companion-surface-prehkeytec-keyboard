@@ -64,7 +64,9 @@ async function scanDevice(nodeHidDevice: Device): Promise<DetectionSurfaceInfo<P
 	}
 
 	const definition = modelId === baseDefinition.modelId ? baseDefinition : { ...baseDefinition, modelId }
-	const exactModelDetected = productCode !== '' && modelIdFromProductCode(productCode) !== undefined
+	const exactModelDetected =
+		baseDefinition.modelIsUnambiguous === true ||
+		(productCode !== '' && modelIdFromProductCode(productCode) !== undefined)
 	const description = exactModelDetected
 		? modelSurfaceDescription(PREHKEYTEC_MODELS[modelId])
 		: 'PrehKeyTec programmable keyboard'

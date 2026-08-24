@@ -5,6 +5,8 @@ export interface SupportedPrehKeyTecDevice {
 	vendorId: number
 	productId: number
 	modelId: PrehKeyTecModelId
+	/** The USB product ID identifies this model without querying its product code. */
+	modelIsUnambiguous?: boolean
 	/** Restrict the match to the POSKey HID interface when known. */
 	interface?: number
 	/** Restrict the match to the POSKey HID usage page when known. */
@@ -23,6 +25,7 @@ export const SUPPORTED_DEVICES: readonly SupportedPrehKeyTecDevice[] = [
 		vendorId: 0x053a,
 		productId: 0x0b06,
 		modelId: 'mci-128',
+		modelIsUnambiguous: true,
 		interface: 1,
 		usagePage: 0xfffa,
 	},

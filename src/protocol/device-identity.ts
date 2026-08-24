@@ -10,6 +10,41 @@ export interface PrehDeviceIdentity {
 	serialNumber: string
 }
 
+export interface PrehDeviceIdentityDecodeResult {
+	complete: boolean
+	identity?: PrehDeviceIdentity
+}
+
+/**
+ * Collect the identity response from both known Preh HID formats. Older
+ * controllers put one data byte in each report and pad the remaining bytes
+ * with zeroes; newer controllers use all four data bytes.
+ */
+export class PrehDeviceIdentityDecoder {
+	readonly #bytes: number[] = []
+	#receiving = false
+
+	pushReport(report: Uint8Array): PrehDeviceIdentityDecodeResult {
+		if (report[0] !== 0x04) return { complete: false }
+
+		for (const byte of report.subarray(1)) {
+			if (!this.#receiving) {
+				if (byte === PREH_DEVICE_IDENTITY_START) this.#receiving = true
+				continue
+			}
+
+			if (byte === PREH_DEVICE_IDENTITY_END) {
+				return { complete: true, identity: parsePrehDeviceIdentity(this.#bytes) }
+			}
+
+			// Legacy responses pad each single-byte report with NUL bytes.
+			if (byte !== 0) this.#bytes.push(byte)
+		}
+
+		return { complete: false }
+	}
+}
+
 export function parsePrehDeviceIdentity(bytes: readonly number[]): PrehDeviceIdentity | undefined {
 	const versionString = Buffer.from(bytes).toString('latin1').replace(/\0/g, '').trim()
 	const productCode = /^ID\s+(.+)$/im.exec(versionString)?.[1].trim()

@@ -1,10 +1,8 @@
 import { EventEmitter } from 'node:events'
 import { HIDAsync } from 'node-hid'
 import {
-	parsePrehDeviceIdentity,
 	PREH_DEVICE_IDENTITY_COMMAND,
-	PREH_DEVICE_IDENTITY_END,
-	PREH_DEVICE_IDENTITY_START,
+	PrehDeviceIdentityDecoder,
 	type PrehDeviceIdentity,
 } from '../protocol/device-identity.js'
 
@@ -39,27 +37,14 @@ export class PrehHidTransport extends EventEmitter<PrehHidTransportEvents> {
 	}
 
 	async readDeviceIdentity(timeoutMs = 2_000): Promise<PrehDeviceIdentity | undefined> {
-		const bytes: number[] = []
-		let receiving = false
+		const decoder = new PrehDeviceIdentityDecoder()
 		let timeout: ReturnType<typeof setTimeout> | undefined
 		let onReport: ((report: Uint8Array) => void) | undefined
 
 		const response = new Promise<PrehDeviceIdentity | undefined>((resolve) => {
 			onReport = (report) => {
-				if (report[0] !== 0x04 || report[2] !== 0 || report[3] !== 0 || report[4] !== 0) return
-
-				const byte = report[1]
-				if (!receiving) {
-					if (byte !== PREH_DEVICE_IDENTITY_START) return
-					receiving = true
-					return
-				}
-
-				if (byte === PREH_DEVICE_IDENTITY_END) {
-					resolve(parsePrehDeviceIdentity(bytes))
-					return
-				}
-				bytes.push(byte)
+				const result = decoder.pushReport(report)
+				if (result.complete) resolve(result.identity)
 			}
 			this.on('report', onReport)
 			timeout = setTimeout(() => resolve(undefined), timeoutMs)

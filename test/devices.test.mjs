@@ -19,7 +19,9 @@ function createPrehDevice(productId, overrides = {}) {
 
 test('identifies observed MCI models by product ID and POSKey collection', () => {
 	assert.equal(matchSupportedDevice(createPrehDevice(0x0b01))?.modelId, 'mci-84')
-	assert.equal(matchSupportedDevice(createPrehDevice(0x0b06))?.modelId, 'mci-128')
+	const mci128 = matchSupportedDevice(createPrehDevice(0x0b06))
+	assert.equal(mci128?.modelId, 'mci-128')
+	assert.equal(mci128?.modelIsUnambiguous, true)
 })
 
 test('does not claim another collection or an unknown product', () => {
