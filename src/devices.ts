@@ -11,12 +11,22 @@ export interface SupportedPrehKeyTecDevice {
 	usagePage?: number
 }
 
-/**
- * Deliberately empty until IDs and the POSKey HID interface have been observed
- * on hardware or confirmed by PrehKeyTec. Do not add the normal keyboard
- * interface here.
- */
-export const SUPPORTED_DEVICES: readonly SupportedPrehKeyTecDevice[] = []
+export const SUPPORTED_DEVICES: readonly SupportedPrehKeyTecDevice[] = [
+	{
+		vendorId: 0x053a,
+		productId: 0x0b01,
+		modelId: 'mci-84',
+		interface: 1,
+		usagePage: 0xfffa,
+	},
+	{
+		vendorId: 0x053a,
+		productId: 0x0b06,
+		modelId: 'mci-128',
+		interface: 1,
+		usagePage: 0xfffa,
+	},
+]
 
 export function matchSupportedDevice(device: HIDDevice): SupportedPrehKeyTecDevice | undefined {
 	return SUPPORTED_DEVICES.find((candidate) => {

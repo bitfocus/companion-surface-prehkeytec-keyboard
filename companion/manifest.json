@@ -28,5 +28,13 @@
   "products": [
     "PrehKeyTec programmable keyboards"
   ],
-  "usbIds": []
+  "usbIds": [
+    {
+      "vendorId": 1338,
+      "productIds": [
+        2817,
+        2822
+      ]
+    }
+  ]
 }

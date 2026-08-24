@@ -17,10 +17,13 @@
 		"build:manifest-usb-ids": "node tools/update-usb-ids.mjs",
 		"dev": "tsc -p tsconfig.build.json --watch",
 		"format": "prettier -w .",
+		"inspect:layouts": "node tools/inspect-mwf-layouts.mjs",
 		"lint": "run build:main && eslint .",
 		"package": "run build && companion-surface-build",
+		"capture:poskey": "node tools/capture-poskey.mjs",
 		"probe:hid": "node tools/list-hid.mjs",
-		"test": "run build:main && node --test test/*.test.mjs"
+		"test": "run build:main && node --test test/*.test.mjs",
+		"verify:poskeys": "node tools/verify-poskeys.mjs"
 	},
 	"engines": {
 		"node": "^22.21 || ^26.5",
