@@ -55,7 +55,9 @@ jobs:
         env:
           CI: true
       - name: Generate USB IDs
-        run: yarn build:manifest-usb-ids
+        run: |
+          yarn build:main
+          yarn build:manifest-usb-ids
       - name: Verify generated files are current
         uses: infotroph/tree-is-clean@v1.0.6
         with:

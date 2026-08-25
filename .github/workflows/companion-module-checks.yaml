@@ -7,6 +7,10 @@ on:
 jobs:
   check:
     name: Check module
+    # The shared workflow cannot check out a private repository outside Bitfocus.
+    # It starts running automatically after this repository becomes public or is
+    # transferred to the Bitfocus organisation.
+    if: ${{ !github.event.repository.private }}
     permissions:
       packages: read
     uses: bitfocus/actions/.github/workflows/module-checks.yaml@main
