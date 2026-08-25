@@ -6,12 +6,13 @@
   "shortname": "prehkeytec",
   "description": "Programmable PrehKeyTec POS keyboards",
   "version": "0.0.0",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "repository": "git+https://github.com/thepoison606/companion-surface-prehkeytec.git",
   "bugs": "https://github.com/thepoison606/companion-surface-prehkeytec/issues",
   "maintainers": [
     {
-      "name": "Daniel Jocher"
+      "name": "Daniel Jocher",
+      "email": "37410136+thepoison606@users.noreply.github.com"
     }
   ],
   "runtime": {

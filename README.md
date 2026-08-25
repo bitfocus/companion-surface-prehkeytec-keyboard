@@ -1,79 +1,96 @@
 # PrehKeyTec surface for Bitfocus Companion
 
-Private development scaffold for using programmable PrehKeyTec USB keyboards as Companion surfaces.
+This surface module lets supported programmable PrehKeyTec USB keyboards control
+[Bitfocus Companion](https://bitfocus.io/companion). It reads POSKey events from
+the keyboard's separate vendor-defined USB HID collection and reports both key
+presses and key releases to Companion.
 
-## Current status
+The module does not depend on WinProgrammer, MapMyKey, OPOS/JavaPOS middleware,
+or another installed PrehKeyTec service while Companion is running. The vendor
+configuration software is only needed to program the keyboard beforehand.
 
-The Companion plugin structure, model layouts, POSKey state handling, HID
-transport and tests are in place. The observed MCI 30, MCI 60, MCI 84 and MCI
-128 USB devices and their separate POSKey HID collections are enabled, and
-POSKey reports 1–128 are decoded.
+## Device setup
 
-The plugin reads the product code directly from each keyboard during USB scans to
-distinguish models that share a USB product ID. No installed PrehKeyTec software,
-web server or vendor binary is required.
+Program every physical key that should appear in Companion with a unique
+`POSKey001` through `POSKey128` value and enable the keyboard's separate
+OPOS/JavaPOS POSKey HID output. Do not program the keys merely as ordinary
+keyboard shortcuts: Companion deliberately opens only the POSKey collection and
+does not intercept the normal keyboard interface.
+
+After connecting the keyboard, install and enable the PrehKeyTec surface module
+in Companion. The device should be discovered automatically. Assign the surface
+buttons on Companion's Surfaces page as usual.
+
+## Support status
+
+The following layouts and identity codes are implemented. Hardware verification
+describes the devices available during development; unverified models may need
+additional USB IDs or firmware-specific handling before Companion can discover
+them.
+
+| Model         | POS surface                      | Verification    |
+| ------------- | -------------------------------- | --------------- |
+| MCI 30        | 6×5                              | Hardware tested |
+| MCI 60        | 5×12                             | Identity tested |
+| MCI 84        | 7×12                             | Hardware tested |
+| MCI 96        | 6×16                             | Layout only     |
+| MCI 128       | 8×16                             | Hardware tested |
+| MCI 128 Alpha | 2×16 POS section                 | Layout only     |
+| MCI 3000      | 2×4 POS section                  | Layout only     |
+| MCI 3100      | sparse 2×22 POS section, 26 keys | Layout only     |
+| MSI 60        | 6×10                             | Layout only     |
+
+Observed USB devices use vendor ID `0x053a` and product IDs `0x0b01` or
+`0x0b06`. Some models share a product ID, so the module reads the product code
+from the keyboard during discovery to select the correct layout. Only the
+vendor-defined HID interface (`usagePage 0xfffa`, interface 1 on the observed
+devices) is claimed.
+
+## Known limitations
+
+- Models and firmware versions not listed as hardware tested may not yet be
+  discovered automatically.
+- The keyboards do not provide button displays, button illumination, or
+  Companion-controlled brightness through this integration.
+- A device that does not answer the identity query falls back to the layout
+  associated with its USB product ID.
+- macOS, Windows, Linux x64, and Linux arm64 native HID binaries are included in
+  the packaged module, but hardware testing has not covered every platform.
+
+Please include the model, USB vendor/product ID, HID interface information, and
+a short raw report capture when reporting compatibility problems.
 
 ## Development
 
-Companion surface modules currently target Node.js 22 or 26 and Yarn 4.
+The module requires Node.js 22 or 26 and Yarn 4.
 
 ```sh
-yarn
+corepack enable
+yarn install --immutable
 yarn test
 yarn build
+yarn package
 ```
 
-To inspect connected HID interfaces:
+Useful hardware diagnostics:
 
 ```sh
 yarn probe:hid --all
-```
-
-To capture raw reports from the separate PrehKeyTec POSKey collection without
-opening the normal keyboard interface:
-
-```sh
 yarn capture:poskey --seconds 30
-```
-
-To associate selected programmed POSKey numbers with their raw, hardware-specific
-codes using guided press/release prompts:
-
-```sh
-yarn verify:poskeys
 yarn verify:poskeys --keys 1,2,13,73,84
 ```
 
-To inspect the manufacturer MWF sample layouts without modifying them:
+Manufacturer MWF sample layouts can be inspected without modifying them:
 
 ```sh
-yarn inspect:layouts
-yarn inspect:layouts --directory "C:\path\to\OposJavaPOS\MCI"
+yarn inspect:layouts --directory "/path/to/OposJavaPOS/MCI"
 ```
 
-## Model layouts
+When adding a device, add its confirmed USB and HID match criteria to
+`src/devices.ts`, implement any report-format differences, add test captures,
+and run the complete validation commands above. `yarn build` regenerates the
+USB IDs in `companion/manifest.json` from the device definitions.
 
-| Model         |                      POS surface | Source layout           | Hardware verified |
-| ------------- | -------------------------------: | ----------------------- | ----------------- |
-| MCI 30        |                              6×5 | `pos_mci30.MWF`         | Yes               |
-| MCI 60        |                             5×12 | `pos_mci60.MWF`         | Identity only     |
-| MCI 84        |                             7×12 | `pos_mci84.MWF`         | Yes               |
-| MCI 96        |                             6×16 | `pos_mci96.MWF`         | No                |
-| MCI 128       |                             8×16 | `pos_mci128.MWF`        | Yes               |
-| MCI 128 Alpha |                 2×16 POS section | `pos_mci128a_gr/us.MWF` | No                |
-| MCI 3000      |                  2×4 POS section | `pos_mci3000_gr/us.mwf` | No                |
-| MCI 3100      | sparse 2×22 POS section, 26 keys | `pos_mci3100_gr/us.mwf` | No                |
-| MSI 60        |                             6×10 | `pos_msi60.MWF`         | No                |
+## License
 
-## Adding another device
-
-1. Add its vendor ID, product ID, HID interface and model to `src/devices.ts`.
-2. Run `yarn build`; the build updates `companion/manifest.json` automatically.
-3. Implement the confirmed report format in `src/protocol/poskey-report.ts`.
-4. Test press, release, simultaneous keys, auto-repeat and disconnect behaviour on each firmware family.
-
-The MCI 84 and MCI 128 models follow the sequential manufacturer keytables.
-For the MCI 84, POSKey 1–12 are the bottom row and 73–84 the top row.
-For the MCI 128, POSKey 1–16 are the bottom row and 113–128 the top row.
-PrehKeyTec labels rows from the lower-left, while Companion layouts count rows
-from the top.
+[MIT](LICENSE)

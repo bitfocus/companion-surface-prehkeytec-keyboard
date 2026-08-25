@@ -1,0 +1,12 @@
+name: Companion Module Checks
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check:
+    name: Check module
+    permissions:
+      packages: read
+    uses: bitfocus/actions/.github/workflows/module-checks.yaml@main
