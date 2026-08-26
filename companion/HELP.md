@@ -4,6 +4,10 @@ Use a supported programmable PrehKeyTec USB keyboard as a button surface in
 Companion. The integration receives both button-down and button-up events from
 the keyboard's separate POSKey HID interface.
 
+This is an independent community integration and is not affiliated with or
+endorsed by PrehKeyTec GmbH. PrehKeyTec and the associated product names are
+trademarks of their respective owners.
+
 ## Configure the keyboard
 
 Before using the keyboard with Companion:

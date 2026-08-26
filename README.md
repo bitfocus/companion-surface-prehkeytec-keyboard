@@ -9,6 +9,12 @@ The module does not depend on WinProgrammer, MapMyKey, OPOS/JavaPOS middleware,
 or another installed PrehKeyTec service while Companion is running. The vendor
 configuration software is only needed to program the keyboard beforehand.
 
+## Disclaimer
+
+This is an independent community integration and is not affiliated with or
+endorsed by PrehKeyTec GmbH. PrehKeyTec and the associated product names are
+trademarks of their respective owners.
+
 ## Device setup
 
 Program every physical key that should appear in Companion with a unique
