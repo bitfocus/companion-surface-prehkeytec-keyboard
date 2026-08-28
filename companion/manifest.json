@@ -1,14 +1,14 @@
 {
   "$schema": "../node_modules/@companion-surface/base/assets/manifest.schema.json",
   "type": "surface",
-  "id": "prehkeytec",
+  "id": "prehkeytec-keyboard",
   "name": "PrehKeyTec",
   "shortname": "prehkeytec",
   "description": "Programmable PrehKeyTec POS keyboards",
   "version": "0.0.0",
   "license": "MIT",
-  "repository": "git+https://github.com/thepoison606/companion-surface-prehkeytec.git",
-  "bugs": "https://github.com/thepoison606/companion-surface-prehkeytec/issues",
+  "repository": "git+https://github.com/bitfocus/companion-surface-prehkeytec-keyboard.git",
+  "bugs": "https://github.com/bitfocus/companion-surface-prehkeytec-keyboard/issues",
   "maintainers": [
     {
       "name": "Daniel Jocher",

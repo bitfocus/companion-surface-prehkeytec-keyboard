@@ -593,9 +593,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"companion-surface-prehkeytec@workspace:.":
+"companion-surface-prehkeytec-keyboard@workspace:.":
   version: 0.0.0-use.local
-  resolution: "companion-surface-prehkeytec@workspace:."
+  resolution: "companion-surface-prehkeytec-keyboard@workspace:."
   dependencies:
     "@companion-module/tools": "npm:^3.0.2"
     "@companion-surface/base": "npm:~1.3.0"

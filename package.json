@@ -1,14 +1,14 @@
 {
-	"name": "companion-surface-prehkeytec",
+	"name": "companion-surface-prehkeytec-keyboard",
 	"version": "0.1.0",
 	"private": true,
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/thepoison606/companion-surface-prehkeytec.git"
+		"url": "git+https://github.com/bitfocus/companion-surface-prehkeytec-keyboard.git"
 	},
 	"bugs": {
-		"url": "https://github.com/thepoison606/companion-surface-prehkeytec/issues"
+		"url": "https://github.com/bitfocus/companion-surface-prehkeytec-keyboard/issues"
 	},
 	"main": "dist/main.js",
 	"type": "module",
