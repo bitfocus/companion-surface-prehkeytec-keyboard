@@ -29,17 +29,14 @@ buttons on Companion's Surfaces page as usual.
 
 ## Support status
 
-The following layouts and identity codes are implemented. Hardware verification
-describes the devices available during development; unverified models may need
-additional USB IDs or firmware-specific handling before Companion can discover
-them.
+The following layouts and identity codes are implemented. 
 
 | Model         | POS surface                      | Verification    |
 | ------------- | -------------------------------- | --------------- |
 | MCI 30        | 6×5                              | Hardware tested |
-| MCI 60        | 5×12                             | Identity tested |
+| MCI 60        | 5×12                             | Hardware tested |
 | MCI 84        | 7×12                             | Hardware tested |
-| MCI 96        | 6×16                             | Layout only     |
+| MCI 96        | 6×16                             | Identity tested |
 | MCI 128       | 8×16                             | Hardware tested |
 | MCI 128 Alpha | 2×16 POS section                 | Layout only     |
 | MCI 3000      | 2×4 POS section                  | Layout only     |
@@ -60,11 +57,6 @@ devices) is claimed.
   Companion-controlled brightness through this integration.
 - A device that does not answer the identity query falls back to the layout
   associated with its USB product ID.
-- macOS, Windows, Linux x64, and Linux arm64 native HID binaries are included in
-  the packaged module, but hardware testing has not covered every platform.
-
-Please include the model, USB vendor/product ID, HID interface information, and
-a short raw report capture when reporting compatibility problems.
 
 ## Development
 
